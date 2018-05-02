@@ -1,4 +1,4 @@
-defmodule Upload.Service do
+defmodule Upload.UploadService do
   @moduledoc false
 
   use Raxx.Server
@@ -14,8 +14,8 @@ defmodule Upload.Service do
   # This callbacks receives a `Raxx.Request` struct which contains all the headers, path
   # info etc. `body: true` means that the request carries a body.
   #
-  # In our case we're only interested in PUT requests containing the body, sent to
-  # `/uploads/:name`.
+  # In our case we're only interested in PUT requests with a body, sent to
+  # `/uploads/:name` path.
   @impl true
   def handle_head(%Request{method: :PUT, body: true, path: ["uploads", name]}, _state) do
     Logger.debug("Initiating upload")
@@ -25,11 +25,11 @@ defmodule Upload.Service do
     {[], file_handler}
   end
 
-  # Let's return 404 for all other requests.
-  def handle_head(_request, _state) do
-    response(:not_found)
+  # Let's return "bad request" for requests without a body.
+  def handle_head(%Request{method: :PUT, body: false, path: ["uploads", _name]}, _state) do
+    response(:bad_request)
     |> set_header("content-type", "text/plain")
-    |> set_body("Not found")
+    |> set_body("Bad request")
   end
 
   # Handle chunks of data
