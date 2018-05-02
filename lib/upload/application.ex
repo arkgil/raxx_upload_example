@@ -4,7 +4,11 @@ defmodule Upload.Application do
   use Application
 
   def start(_type, _args) do
-    children = []
+    port = Application.fetch_env!(:upload, :port)
+
+    children = [
+      {Ace.HTTP.Service, [{Upload.Service, []}, [port: port, cleartext: true]]}
+    ]
 
     opts = [strategy: :one_for_one, name: Upload.Supervisor]
     Supervisor.start_link(children, opts)
