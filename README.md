@@ -7,8 +7,8 @@ Example HTTP file upload application using [Raxx](https://github.com/cwrodhailer
 First you need to compile and start the service (it runs on Elixir v1.6+):
 
 ```bash
-$ mix deps.get
-$ iex -S mix
+mix deps.get
+iex -S mix
 ```
 
 By default the server will listen on port 8080, although you can change that in `config/config.exs`
@@ -18,7 +18,9 @@ by setting `:upload.:port` configuration value.
 
 Generate some sample data : 
 
-`seq 1 100000 | while read i ; do echo "line $1 : foo bar baz basho" >> /tmp/upload.garbage.txt ; done`
+```
+seq 1 100000 | while read i ; do echo "line $1 : foo bar baz basho" >> /tmp/upload.garbage.txt ; done
+```
 
 You can upload files via curl:
 
