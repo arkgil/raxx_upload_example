@@ -7,8 +7,8 @@ Example HTTP file upload application using [Raxx](https://github.com/cwrodhailer
 First you need to compile and start the service (it runs on Elixir v1.6+):
 
 ```bash
-$ mix deps.get
-$ iex -S mix
+mix deps.get
+iex -S mix
 ```
 
 By default the server will listen on port 8080, although you can change that in `config/config.exs`
@@ -16,10 +16,16 @@ by setting `:upload.:port` configuration value.
 
 #### Upload
 
+Generate some sample data : 
+
+```
+seq 1 100000 | while read i ; do echo "line $1 : foo bar baz basho" >> /tmp/upload.garbage.txt ; done
+```
+
 You can upload files via curl:
 
 ```bash
-$ curl -X PUT http://localhost:8080/uploads/your-file-name --data-binary @path/to/your/file
+curl -X PUT http://localhost:8080/uploads/garbage.txt --data-binary @/tmp/upload.garbage.txt
 ```
 
 If you look at the logs in console you'll see something like this:
@@ -49,7 +55,7 @@ pictures, e.g. [this one](https://upload.wikimedia.org/wikipedia/commons/d/dd/Bi
 You can download files by providing the same name you've used when uploading it:
 
 ```curl
-$ curl -X GET http://localhost:8080/uploads/your-file-name -o path/where/file/will/be/placed
+curl http://localhost:8080/uploads/garbage.txt -O
 ```
 
 (You'll get error 404 if the file with the given name hasn't been uploaded yet).
