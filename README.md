@@ -76,3 +76,6 @@ If you look at the logs again:
 By default file is read and sent in chunks of 5000 bytes. You can change this number by modifying
 `:upload.:download_chunk_size` configuration variable.
 
+#### License
+
+Copyright 2018 Erlang Solutions -  License -  Apache license 2.0 https://www.apache.org/licenses/
